@@ -70,10 +70,15 @@ public class ImageFlowSurfaceView extends SurfaceView implements SurfaceHolder.C
         isSurfaceCreated=false;
     }
 
-    @Override
-    public void prepare() {
+    public void prepareHander() {
         if (controllerHander == null)
             controllerHander = new FlowViewController(getLooper(mDrawingThreadType), this);
+    }
+
+    @Override
+    public void prepare() {
+        prepareHander();
+        controllerHander.obtainMessage(FlowViewController.PREPARE).sendToTarget();
     }
 
 

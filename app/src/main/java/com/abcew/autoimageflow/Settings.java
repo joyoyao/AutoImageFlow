@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 public class Settings {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
-    private int mSpanCount = 2;
+    private int mSpanCount = 1;
+
+    public int minHspanH = 5;
     private int mOrientation = VERTICAL;  // HORIZONTAL ||VERTICAL
     private boolean isRepeat = true;
     public int getSpanCount() {
