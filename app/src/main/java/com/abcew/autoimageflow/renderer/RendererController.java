@@ -43,7 +43,8 @@ public class RendererController {
     private Handler handler;
     private Settings settings;
     private int width = 0;
-    private int height = 1437;
+    private int height = 1037;
+    private int minHeight = 0;
     private boolean isAddList = true;
     private int mCurrentPointer = 0;
 
@@ -53,15 +54,20 @@ public class RendererController {
     }
 
     public void draw(Canvas canvas) {
-        if (mDrawList != null) {
-            for (Iterator<IRenderer> it = mDrawList.iterator(); it.hasNext(); ) {
-                IRenderer item = it.next();
+        if (mDrawList != null&&mDrawList.size()>0) {
+            Iterator keys = mDrawList.iterator();
+            while (keys.hasNext()){
+                IRenderer item = (IRenderer) keys.next();
                 if (item.isOut()) {
-                    it.remove();
+                    keys.remove();
                 } else {
                     item.drawSelf(canvas);
                 }
             }
+//            for (Iterator<IRenderer> it = mDrawList.iterator(); it.hasNext(); ) {
+//                IRenderer item = it.next();
+//
+//            }
             //先绘制正在播放的弹幕
 //            for (int i = 0; i < mDrawMap.size(); i++) {
 //                ArrayList<IDanmakuItem> list = mChannelMap.get(i);
@@ -88,24 +94,24 @@ public class RendererController {
         for (int i = 0; i < settings.getSpanCount(); i++) {
             mChannelMap.put(i, 0);
         }
-        int minKey = getMinHight(mChannelMap);
+        minHeight=0;
         isAddList = true;
         while (isAddList) {
-            if (minKey < height && mDatas != null && mDatas.size() > 0) {
+            if (minHeight < height ) {
                 VerticalRenderer verticalRenderer = new VerticalRenderer();
                 verticalRenderer.setLocationX(0);
-                verticalRenderer.setLocationY(mChannelMap.get(minKey) + settings.minHspanH);
+                verticalRenderer.setLocationY(minHeight + settings.minHspanH);
                 if (mCurrentPointer > mDatas.size()) {
                     mCurrentPointer = 0;
                 }
-
-                ImageSize targetSize = new ImageSize(80, 50); // result Bitmap will be fit to this size
+                ImageSize targetSize = new ImageSize(200, 100); // result Bitmap will be fit to this size
                 Bitmap bmp = ImageLoader.getInstance().loadImageSync("drawable://" + R.drawable.user_myself_bg, targetSize);
-                verticalRenderer.setWidth(80);
-                verticalRenderer.setHeight(50);
+                verticalRenderer.setWidth(200);
+                verticalRenderer.setHeight(100);
                 verticalRenderer.setBitmap(bmp);
                 mDrawList.add(verticalRenderer);
-                mChannelMap.put(minKey,verticalRenderer.getLocationY()+verticalRenderer.getHeight());
+                minHeight=verticalRenderer.getLocationY()+verticalRenderer.getHeight();
+//                mChannelMap.put(minKey,verticalRenderer.getLocationY()+verticalRenderer.getHeight());
                 mCurrentPointer++;
             } else {
                 isAddList = false;
@@ -118,7 +124,13 @@ public class RendererController {
 
     public static int getMinHight(HashMap<Integer, Integer> mChannelMap) {
         int key = 0;
-        for (int i = 0; i < mChannelMap.size(); i++) {
+        if(mChannelMap.size()==0){
+            return -1;
+        }
+        if(mChannelMap.size()==1){
+            return 0;
+        }
+        for (int i = 1; i < mChannelMap.size(); i++) {
             if (mChannelMap.get(key) > mChannelMap.get(i)) {
                 key = i;
             }

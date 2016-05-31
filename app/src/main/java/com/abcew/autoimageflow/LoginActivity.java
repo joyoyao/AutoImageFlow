@@ -27,13 +27,14 @@ public class LoginActivity extends AppCompatActivity{
         b2.setUrl(R.mipmap.ic_launcher+"");
         flows.add(b2);
         imageflow.addImageFlow(flows);
-        imageflow.prepare();
+
         imageflow.postDelayed(new Runnable() {
             @Override
             public void run() {
+                imageflow.prepare();
 //                imageflow.start();
             }
-        },1000);
+        },2000);
 //        imageflow.start();
 //        imageflow.getController().getSettings().setmSpanCount();
 

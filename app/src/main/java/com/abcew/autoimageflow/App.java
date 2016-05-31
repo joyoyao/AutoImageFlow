@@ -3,6 +3,7 @@ package com.abcew.autoimageflow;
 import android.app.Application;
 import android.graphics.Bitmap;
 
+import com.abcew.autoimageflow.utils.LocalDisplay;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -20,6 +21,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LocalDisplay.init(getApplicationContext());
 
         loadingOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true).

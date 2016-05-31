@@ -25,15 +25,14 @@ public class VerticalRenderer extends IRenderer {
     private Paint pain=new Paint();
     @Override
     public void drawSelf(Canvas canvas) {
-        canvas.drawBitmap(bitmap, 0, 11, pain);
-        locationY-=5;
-//        if (bitmap!=null&&!isOut()) {
-//
-//        }
+        if (bitmap!=null&&!isOut()) {
+            canvas.drawBitmap(bitmap, 0, getLocationY(), pain);
+            locationY-=2;
+        }
     }
     @Override
     public boolean isOut() {
-        return locationY<0?true:false;
+        return locationY<-height?true:false;
     }
 
     public Bitmap getBitmap() {

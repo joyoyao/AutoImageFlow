@@ -81,6 +81,8 @@ public class FlowViewController extends Handler {
                 long dTime = 0;
                 while (!mIsQuited) {
                     iFlowView.drawImageFlow();
+
+                    SystemClock.sleep(30);
 //                    long startMS = System.currentTimeMillis();
 //                    dTime = System.currentTimeMillis() - lastTime;
 //                    long diffTime = mFrameUpdateRate - dTime;

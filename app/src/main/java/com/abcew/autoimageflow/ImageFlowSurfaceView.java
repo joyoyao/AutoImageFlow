@@ -116,6 +116,7 @@ public class ImageFlowSurfaceView extends SurfaceView implements SurfaceHolder.C
         if (!isShown())
             return ;
         Canvas canvas = mSurfaceHolder.lockCanvas();
+        DrawHelper.clearCanvas(canvas);
         if (canvas != null){
             if (controllerHander != null) {
                 controllerHander.draw(canvas);
